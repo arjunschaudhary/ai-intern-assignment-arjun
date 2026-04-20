@@ -1,0 +1,216 @@
+{
+  "name": "B1 Lead Notification Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "student-lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7a24a27e-51af-4615-a93f-d6c5bf877bb0",
+      "name": "Webhook(student-lead)",
+      "webhookId": "a4315394-5820-4e06-be50-ba34a1441dc9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a12c8ddb-36d1-4ef2-b8a7-161458e22b24",
+              "name": "name",
+              "value": "={{ $json.body.fullName }}",
+              "type": "string"
+            },
+            {
+              "id": "6d535c72-25d5-4a46-a230-97c04edf9fff",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "6a67fd34-a1a6-4eb7-ac57-dd020b54d37b",
+              "name": "courseLevel",
+              "value": "={{ $json.body.courseLevel }}",
+              "type": "string"
+            },
+            {
+              "id": "6fc0488e-b6d3-4a4f-aedc-42b0351fd2eb",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "b1379a0a-4c94-4828-804d-407ed4a423bb",
+              "name": "country",
+              "value": "={{ $json.body.country }}",
+              "type": "string"
+            },
+            {
+              "id": "f5d35a80-e96b-4602-bcbb-7afc93996227",
+              "name": "preferredUniversity",
+              "value": "={{ $json.body.preferredUniversity }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5759d620-d1a7-4563-b099-5cc62430444d",
+      "name": "Map Field (Set) "
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "49cbaf46-8d06-4fdb-8060-cf759dcf7a1d",
+              "leftValue": "={{ $json[\"courseLevel\"] }}",
+              "rightValue": "PG",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "405a03ba-50a1-4745-ac1b-f310311f5de9",
+              "leftValue": "={{ $json[\"courseLevel\"] }}",
+              "rightValue": "PhD",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "79755e25-3072-4bc2-ad52-5b80a2fbc340",
+      "name": "Check Course Level (IF)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "572becc8-ea52-4b2c-93d6-797ac38faebe",
+              "name": "leadType",
+              "value": "Normal",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        96
+      ],
+      "id": "26763222-1a45-4420-a003-483b2f23e241",
+      "name": "Mock log - Normal Lead "
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db12ed75-c0ab-48aa-88f7-449a8ef7ac01",
+              "name": "leadType",
+              "value": "High Value",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "9a6ddf81-ffa5-476e-9593-65a3112aa268",
+      "name": "Mock Notification - High Value Lead "
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook(student-lead)": {
+      "main": [
+        [
+          {
+            "node": "Map Field (Set) ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Field (Set) ": {
+      "main": [
+        [
+          {
+            "node": "Check Course Level (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Course Level (IF)": {
+      "main": [
+        [
+          {
+            "node": "Mock Notification - High Value Lead ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mock log - Normal Lead ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "75620b94-3be7-48b4-ab33-dc39b9d8c432",
+  "meta": {
+    "instanceId": "379be1386c3b79ce14d30b22a98f8c56d8561975a4a848b9314e17a657a23b9f"
+  },
+  "id": "3ol5iEUb5eCtejXx",
+  "tags": []
+}
