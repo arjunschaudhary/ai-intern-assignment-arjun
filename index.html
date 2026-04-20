@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Lead Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Student Lead Capture Form</h1>
+    <p class="subtitle">Fill in your details below.</p>
+
+    <form id="studentForm">
+      <label for="fullName">Full Name *</label>
+      <input type="text" id="fullName" placeholder="Enter your full name">
+      <div class="error" id="nameError"></div>
+
+      <label for="email">Email *</label>
+      <input type="text" id="email" placeholder="Enter your email">
+      <div class="error" id="emailError"></div>
+
+      <label for="country">Country</label>
+      <select id="country">
+        <option value="">Select country</option>
+        <option>India</option>
+        <option>USA</option>
+        <option>UK</option>
+        <option>Canada</option>
+        <option>Australia</option>
+      </select>
+
+      <label>Course Level *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="courseLevel" value="UG"> UG</label>
+        <label><input type="radio" name="courseLevel" value="PG"> PG</label>
+        <label><input type="radio" name="courseLevel" value="PhD"> PhD</label>
+      </div>
+      <div class="error" id="courseError"></div>
+
+      <label for="university">Preferred University *</label>
+      <input type="text" id="university" placeholder="Enter university name">
+      <div class="error" id="universityError"></div>
+
+      <label for="message">Message</label>
+      <textarea id="message" rows="5" maxlength="300" placeholder="Write your message"></textarea>
+      <div class="counter"><span id="charCount">0</span>/300</div>
+      <div class="error" id="messageError"></div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="successMessage" class="success"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
